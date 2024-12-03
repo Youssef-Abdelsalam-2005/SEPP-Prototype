@@ -1,33 +1,39 @@
-# Use a multi-stage build to keep the final image lightweight
+# First Stage - Build frontend with Nginx
+FROM nginx:alpine as frontend-build
 
-# Stage 1: Build the frontend
-FROM node:14 as build-frontend
+# Copy the frontend files into the Nginx container
+COPY frontend/ /usr/share/nginx/html/
 
-WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
+# Second Stage - Build Backend with Python and Flask
+FROM python:3.10-slim as backend-build
 
-# Stage 2: Set up the backend
-FROM python:3.9-slim as build-backend
+# Install required system dependencies (including virtualenv)
+RUN apt-get update && apt-get install -y python3-venv
 
-WORKDIR /app/backend
-COPY backend/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY backend/ ./
+# Set working directory
+WORKDIR /app
 
-# Stage 3: Combine frontend and backend
+# Copy the backend files into the container
+COPY backend/requirements.txt /app/
+COPY backend/app.py /app/
+
+# Create a virtual environment
+RUN python3 -m venv /app/venv
+
+# Install dependencies inside the virtual environment
+RUN /app/venv/bin/pip install --no-cache-dir -r /app/requirements.txt
+
+# Final Stage - Combining Frontend and Backend into the Final Image
 FROM nginx:alpine
 
-# Copy frontend build to Nginx
-COPY --from=build-frontend /app/frontend/build /usr/share/nginx/html
+# Copy the frontend build from the previous stage
+COPY --from=frontend-build /usr/share/nginx/html /usr/share/nginx/html
 
-# Copy backend application
-COPY --from=build-backend /app/backend /app/backend
+# Copy the backend code and virtual environment
+COPY --from=backend-build /app /app
 
-# Expose ports
+# Expose the required ports
 EXPOSE 80 5000
 
-# Start Nginx and Flask
-CMD ["sh", "-c", "nginx -g 'daemon off;' & python /app/backend/app.py"]
+# Start the Flask app in the background and run Nginx
+CMD ["sh", "-c", "/app/venv/bin/python /app/app.py & nginx -g 'daemon off;'"]

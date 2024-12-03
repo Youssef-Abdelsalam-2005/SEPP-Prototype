@@ -29,13 +29,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker-compose build
+          docker build -t myapp .
 
       - name: Run tests
         run: |
           # Example test step: You can add custom test commands here
           # E.g., Test if Flask is running, or if the frontend was built successfully
-          docker-compose up -d
+          docker run -d -p 5000:5000 myapp
           sleep 10
           curl http://localhost:5000 # Test backend API response
-          curl http://localhost:8080 # Test frontend availability
+          curl http://localhost # Test frontend availability
