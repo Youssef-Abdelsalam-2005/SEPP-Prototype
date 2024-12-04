@@ -7,17 +7,20 @@
         {
           "item_id": 1,
           "name": "Chicken",
-          "quantity": 12
+          "quantity": 12,
+          "price": 10
         },
         {
           "item_id": 2,
           "name": "Beef",
-          "quantity": 5
+          "quantity": 5,
+          "price": 10
         },
         {
           "item_id": 3,
           "name": "Cheese",
-          "quantity": 3
+          "quantity": 3,
+          "price": 10
         }
       ],
       "cart": [
@@ -25,18 +28,21 @@
           "item_id": 1,
           "name": "Chicken",
           "quantity": 12,
+          "price": 10,
           "username": "Youssef"
         },
         {
           "item_id": 2,
           "name": "Beef",
           "quantity": 5,
+          "price": 10,
           "username": "Youssef"
         },
         {
           "item_id": 3,
           "name": "Cheese",
           "quantity": 3,
+          "price": 10,
           "username": "Youssef"
         }
       ],
@@ -50,17 +56,20 @@
         {
           "item_id": 1,
           "name": "Chicken",
-          "quantity": 12
+          "quantity": 12,
+          "price": 10
         },
         {
           "item_id": 2,
           "name": "Beef",
-          "quantity": 5
+          "quantity": 5,
+          "price": 10
         },
         {
           "item_id": 3,
           "name": "Cheese",
-          "quantity": 3
+          "quantity": 3,
+          "price": 10
         }
       ],
       "cart": [
@@ -68,18 +77,21 @@
           "item_id": 1,
           "name": "Chicken",
           "quantity": 12,
+          "price": 10,
           "username": "Youssef"
         },
         {
           "item_id": 2,
           "name": "Beef",
           "quantity": 5,
+          "price": 10,
           "username": "Youssef"
         },
         {
           "item_id": 3,
           "name": "Cheese",
           "quantity": 3,
+          "price": 10,
           "username": "Youssef"
         }
       ],
