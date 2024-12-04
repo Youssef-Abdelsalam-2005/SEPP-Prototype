@@ -1,0 +1,44 @@
+{
+  "expected_input": {
+    "method": "PUT",
+    "url": "/carts/{cart_id}/remove/{item_id}",
+    "body": {
+      "username": "Youssef"
+    }
+  },
+  "expected_output": {
+    "status_code": 200,
+    "response": {
+      "time": "2024-12-07T014:00:00Z",
+      "items": [
+        {
+          "item_id": 1,
+          "name": "Chicken",
+          "quantity": 11
+        },
+        {
+          "item_id": 2,
+          "name": "Beef",
+          "quantity": 5
+        },
+        {
+          "item_id": 3,
+          "name": "Cheese",
+          "quantity": 4
+        }
+      ],
+      "cart": [
+        {
+          "item_id": 3,
+          "name": "Cheese",
+          "quantity": 1
+        },
+        {
+          "item_id": 1,
+          "name": "Chicken",
+          "quantity": 1
+        }
+      ]
+    }
+  }
+}
