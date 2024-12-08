@@ -9,24 +9,8 @@
   "expected_output": {
     "status_code": 200,
     "response": {
-      "carts": [
-        {
-          "cart_id": 1,
-          "building_id": 1
-        },
-        {
-          "cart_id": 2,
-          "building_id": 2
-        },
-        {
-          "cart_id": 10,
-          "building_id": 10
-        },
-        {
-          "cart_id": 12,
-          "building_id": 12
-        }
-      ]
+      "cart_id": 1,
+      "building_id": 1
     }
   }
 }

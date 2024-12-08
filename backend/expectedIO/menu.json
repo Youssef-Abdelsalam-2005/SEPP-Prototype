@@ -1,10 +1,7 @@
 {
   "expected_input": {
     "method": "GET",
-    "url": "/carts/{cart_id}",
-    "body": {
-      "username": "Youssef"
-    }
+    "url": "/carts/{cart_id}"
   },
   "expected_output": {
     "status_code": 200,
