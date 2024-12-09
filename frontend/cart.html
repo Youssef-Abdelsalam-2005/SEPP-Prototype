@@ -14,11 +14,149 @@
         <!-- Cart data dynamically loaded here -->
       </div>
       <div class="total">
-        <p>Total: £12.50</p>
-        <p>Order: £10</p>
-        <p>Delivery: £10 / 4 = £2.50</p>
+        <p id="total"></p>
+        <p id="delivery"></p>
+        <p id="grand-total"></p>
       </div>
       <button class="button">Pay Now</button>
     </div>
+
+    <script>
+      const username = localStorage.getItem("username"); // Assuming username is stored in localStorage
+      const DELIVERY_FEE = 10; // Flat delivery fee
+
+      window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cartId = urlParams.get("cart_id");
+
+        if (!cartId) {
+          alert("Cart ID is missing.");
+          return;
+        }
+
+        fetchCartItems(cartId);
+      };
+
+      function fetchCartItems(cartId) {
+        fetch(`http://localhost:5000/carts/${cartId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const dataDiv = document.getElementById("data");
+            if (data.error) {
+              dataDiv.innerHTML = `<p>${data.error}</p>`;
+            } else {
+              dataDiv.innerHTML = ""; // Clear the loading text
+              let total = 0;
+
+              // Render available items
+              data.items.forEach((item) => {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("cart-item");
+                itemElement.innerHTML = `
+                  <h4>${item.name}</h4>
+                  <p>Price: £${item.price}</p>
+                  <button class="button" onclick="addItem(${cartId}, ${item.item_id})">Add</button>
+                `;
+                dataDiv.appendChild(itemElement);
+              });
+
+              // Render items in the cart that belong to the user
+              const userCartItems = data.cart.filter(
+                (item) => item.username === username
+              );
+
+              if (userCartItems.length > 0) {
+                const cartTitle = document.createElement("h3");
+                cartTitle.textContent = "Items in Your Cart:";
+                dataDiv.appendChild(cartTitle);
+
+                userCartItems.forEach((item) => {
+                  const cartElement = document.createElement("div");
+                  cartElement.classList.add("cart-item");
+                  cartElement.innerHTML = `
+                    <h4>${item.name}</h4>
+                    <p>Price: £${item.price}</p>
+                    <button class="button" onclick="removeItem(${cartId}, ${item.item_id}, '${item.username}')">Remove</button>
+                  `;
+                  total += item.price;
+                  dataDiv.appendChild(cartElement);
+                });
+              }
+
+              // Calculate delivery fee and grand total
+              const uniqueUsers = [
+                ...new Set(data.cart.map((item) => item.username)),
+              ];
+              const deliveryFeePerUser = DELIVERY_FEE / uniqueUsers.length;
+              const grandTotal = total + deliveryFeePerUser;
+
+              // Update totals
+              document.getElementById(
+                "total"
+              ).innerText = `Order Total: £${total.toFixed(2)}`;
+              document.getElementById(
+                "delivery"
+              ).innerText = `Delivery Fee (shared): £${deliveryFeePerUser.toFixed(
+                2
+              )}`;
+              document.getElementById(
+                "grand-total"
+              ).innerText = `Grand Total: £${grandTotal.toFixed(2)}`;
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching cart items:", error);
+            document.getElementById("data").innerHTML =
+              "<p>Error fetching cart items. Try again later.</p>";
+          });
+      }
+
+      function addItem(cartId, itemId) {
+        fetch(`http://localhost:5000/carts/${cartId}/add/${itemId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: username }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            } else {
+              fetchCartItems(cartId); // Refresh the cart
+            }
+          })
+          .catch((error) => {
+            console.error("Error adding item:", error);
+          });
+      }
+
+      function removeItem(cartId, itemId, itemOwner) {
+        if (itemOwner !== username) {
+          alert("You are not allowed to remove this item.");
+          return;
+        }
+
+        fetch(`http://localhost:5000/carts/${cartId}/remove/${itemId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: username }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            } else {
+              fetchCartItems(cartId); // Refresh the cart
+            }
+          })
+          .catch((error) => {
+            console.error("Error removing item:", error);
+          });
+      }
+    </script>
   </body>
 </html>

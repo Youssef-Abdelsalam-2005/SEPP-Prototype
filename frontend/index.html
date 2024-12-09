@@ -9,7 +9,7 @@
   <body id="login-page">
     <div class="container">
       <h1>Login</h1>
-      <form>
+      <form id="login-form">
         <input
           type="text"
           placeholder="Username"
@@ -25,5 +25,22 @@
         <button type="submit" class="button" id="login">Login</button>
       </form>
     </div>
+
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const buildingId = document.getElementById("building_id").value;
+
+          localStorage.setItem("username", username);
+          localStorage.setItem("building_id", buildingId);
+
+          window.location.href = "available-carts.html";
+          console.log("Saved to localStorage:", { username, buildingId });
+        });
+    </script>
   </body>
 </html>
