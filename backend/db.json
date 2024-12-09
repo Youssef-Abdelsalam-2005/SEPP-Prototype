@@ -182,6 +182,50 @@
             ],
             "cart": [],
             "time": "2024-12-09T07:17:10.562668"
+        },
+        {
+            "cart_id": 4,
+            "building_id": "1",
+            "items": [
+                {
+                    "item_id": 1,
+                    "name": "Chicken",
+                    "quantity": 12,
+                    "price": 10
+                },
+                {
+                    "item_id": 2,
+                    "name": "Beef",
+                    "quantity": 5,
+                    "price": 10
+                },
+                {
+                    "item_id": 3,
+                    "name": "Cheese",
+                    "quantity": 3,
+                    "price": 10
+                },
+                {
+                    "item_id": 4,
+                    "name": "Juice",
+                    "quantity": 10,
+                    "price": 5
+                },
+                {
+                    "item_id": 5,
+                    "name": "Milk",
+                    "quantity": 8,
+                    "price": 4
+                },
+                {
+                    "item_id": 6,
+                    "name": "Bread",
+                    "quantity": 15,
+                    "price": 3
+                }
+            ],
+            "cart": [],
+            "time": "2024-12-09T09:39:49.434678"
         }
     ]
 }

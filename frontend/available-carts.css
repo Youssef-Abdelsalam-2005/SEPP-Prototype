@@ -1,0 +1,24 @@
+body {
+  background-color: #00274d;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  margin-top: 20vh;
+}
+
+h1 {
+  color: #00c8d7;
+}
+
+.button {
+  background-color: #00c8d7;
+  border: none;
+  padding: 10px 20px;
+  color: #00274d;
+  border-radius: 5px;
+  cursor: pointer;
+}

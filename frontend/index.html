@@ -3,13 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>My Project</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css" />
   </head>
-  <body>
-    <h1>Welcome to My Project</h1>
-    <button id="fetch-data">Fetch Data</button>
-    <div id="data"></div>
-    <script src="script.js"></script>
+  <body id="login-page">
+    <div class="container">
+      <h1>Login</h1>
+      <form>
+        <input
+          type="text"
+          placeholder="Username"
+          id="username"
+          class="input-field"
+        />
+        <input
+          type="text"
+          placeholder="Building ID"
+          id="building_id"
+          class="input-field"
+        />
+        <button type="submit" class="button" id="login">Login</button>
+      </form>
+    </div>
   </body>
 </html>
