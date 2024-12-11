@@ -38,8 +38,16 @@
                 cartElement.innerHTML = `
                   <h3>Cart ID: ${cart.cart_id}</h3>
                   <p>Building ID: ${cart.building_id}</p>
-                  <p>Time: ${cart.time}</p>
-                  <button class="button" onclick="viewCart(${cart.cart_id})">View Cart</button>
+                    <p>Deadline: ${new Date(cart.time).toLocaleString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}</p>
+                  <button class="button" onclick="viewCart(${
+                    cart.cart_id
+                  })">View Cart</button>
                 `;
                 dataDiv.appendChild(cartElement);
               });
