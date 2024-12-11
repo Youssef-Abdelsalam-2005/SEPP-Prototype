@@ -3,13 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>My Project</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css" />
   </head>
-  <body>
-    <h1>Welcome to My Project</h1>
-    <button id="fetch-data">Fetch Data</button>
-    <div id="data"></div>
-    <script src="script.js"></script>
+  <body id="login-page">
+    <div class="container">
+      <h1>Login</h1>
+      <form id="login-form">
+        <input
+          type="text"
+          placeholder="Username"
+          id="username"
+          class="input-field"
+        />
+        <input
+          type="text"
+          placeholder="Building ID"
+          id="building_id"
+          class="input-field"
+        />
+        <button type="submit" class="button" id="login">Login</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const buildingId = document.getElementById("building_id").value;
+
+          localStorage.setItem("username", username);
+          localStorage.setItem("building_id", buildingId);
+
+          window.location.href = "available-carts.html";
+          console.log("Saved to localStorage:", { username, buildingId });
+        });
+    </script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 CORS(app)
@@ -37,7 +37,7 @@ def create_cart():
     if not building_id:
         return jsonify({"error": "building_id is required"}), 400
 
-    new_cart = {"cart_id": len(carts) + 1, "building_id": building_id,       "items": [
+    new_cart = {"cart_id": len(carts) + 1, "building_id": building_id, "items": [
         {
           "item_id": 1,
           "name": "Chicken",
@@ -74,7 +74,7 @@ def create_cart():
           "quantity": 15,
           "price": 3
         }
-      ], "cart": [], "time": datetime.utcnow().isoformat()}
+      ], "cart": [], "time": (datetime.utcnow() + timedelta(hours=5)).isoformat()}
     carts.append(new_cart)
     save_db(db)
     return jsonify(new_cart), 201

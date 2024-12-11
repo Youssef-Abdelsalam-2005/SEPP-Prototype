@@ -11,3 +11,5 @@ services:
       context: ./backend
     ports:
       - "5000:5000"
+    volumes:
+      - ./backend/db.json:/app/backend/db.json # Mount db.json file for development

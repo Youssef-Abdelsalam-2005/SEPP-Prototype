@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Carts</title>
+    <link rel="stylesheet" href="available-carts.css" />
+  </head>
+  <body id="available-carts-page">
+    <div class="container">
+      <h1>Available Carts</h1>
+      <div id="data">
+        <p>No active carts. Start your own!</p>
+      </div>
+      <button class="button" id="newCartButton" style="margin-top: 30px">
+        New Cart
+      </button>
+    </div>
+
+    <script>
+      // Fetch the carts when the page loads
+      window.onload = function () {
+        fetchCarts();
+      };
+
+      function fetchCarts() {
+        fetch("http://localhost:5000/carts") // Update this URL if your server is hosted elsewhere
+          .then((response) => response.json())
+          .then((data) => {
+            const dataDiv = document.getElementById("data");
+            if (data.length === 0) {
+              dataDiv.innerHTML = "<p>No active carts. Start your own!</p>";
+            } else {
+              dataDiv.innerHTML = "";
+              data.forEach((cart) => {
+                const cartElement = document.createElement("div");
+                cartElement.classList.add("cart");
+                cartElement.innerHTML = `
+                  <h3>Cart ID: ${cart.cart_id}</h3>
+                  <p>Building ID: ${cart.building_id}</p>
+                    <p>Deadline: ${new Date(cart.time).toLocaleString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                    })}</p>
+                  <button class="button" onclick="viewCart(${
+                    cart.cart_id
+                  })">View Cart</button>
+                `;
+                dataDiv.appendChild(cartElement);
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching carts:", error);
+            document.getElementById("data").innerHTML =
+              "<p>Error fetching carts. Try again later.</p>";
+          });
+      }
+
+      // Create a new cart and redirect to items.html
+      document
+        .getElementById("newCartButton")
+        .addEventListener("click", function () {
+          const username = localStorage.getItem("username");
+          const buildingId = localStorage.getItem("building_id");
+
+          if (!username || !buildingId) {
+            alert("Please log in first.");
+            return;
+          }
+
+          // Create new cart using the saved username and building_id
+          fetch("http://localhost:5000/carts/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              building_id: buildingId,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Redirect to the items page with the new cart_id
+              window.location.href = `cart.html?cart_id=${data.cart_id}`;
+            })
+            .catch((error) => {
+              console.error("Error creating cart:", error);
+              alert("Failed to create cart. Please try again.");
+            });
+        });
+
+      // View a specific cart (can be adapted to show cart items or details)
+      function viewCart(cartId) {
+        window.location.href = `cart.html?cart_id=${cartId}`;
+      }
+    </script>
+  </body>
+</html>
